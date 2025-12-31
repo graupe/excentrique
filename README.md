@@ -12,15 +12,18 @@ other packages that provide some of these features, this package actually
 overrides core syntactic elements to give cleaner feel and syntactic editor
 support without special treatments.
 
+The motivation for this package was to have something akin to feature flags for
+the Elixir syntax/compiler.
+
 ## Installation
 
 `Excentrique` is [available on GitHub](https://github.com/graupe/excentrique) and can be installed
-by adding `axent` to your list of dependencies in `mix.exs`:
+by adding `excentrique` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
   [
-    {:excentrique, github: "graupe/excentrique", runtime: false}
+    {:excentrique, github: "graupe/excentrique", tag: "1.1.0", runtime: false}
   ]
 end
 ```

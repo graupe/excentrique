@@ -15,7 +15,7 @@ defmodule Excentrique do
   ```elixir
   def deps do
     [
-      {:excentrique, github: "graupe/excentrique", runtime: false}
+      {:excentrique, github: "graupe/excentrique", tag: "1.1.0", runtime: false}
     ]
   end
   ```
