@@ -201,9 +201,11 @@ defmodule Excentrique.DefTest do
     end
 
     test "axent def error on implicit nil return" do
-      assert_raise SyntaxError, ~r"Expected non-match assignment as last expression", fn ->
-        Code.compile_string(@test_ok_with_warning)
-      end
+      assert_raise SyntaxError,
+                   ~r"Expected last expression in do-block to be result but got",
+                   fn ->
+                     Code.compile_string(@test_ok_with_warning)
+                   end
     end
 
     test "axent def error on `<-` with `rescue` or `catch`" do

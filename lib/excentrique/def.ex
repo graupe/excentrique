@@ -158,7 +158,7 @@ defmodule Excentrique.Def do
     with {:<-, meta, _} <- result do
       raise SyntaxError,
         description:
-          "Expected non-match assignment as last expression, but got: #{Macro.to_string(result)}",
+          "Expected last expression in do-block to be result but got: #{Macro.to_string(result)}",
         line: meta[:line],
         column: meta[:column],
         file: caller.file
