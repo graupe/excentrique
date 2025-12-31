@@ -83,7 +83,7 @@ defmodule Excentrique.Def do
   end
 
   defp def_opts(opts, caller) do
-    if not Keyword.has_key?(opts, :do) or not has_axent?(opts[:do]) do
+    if not Keyword.has_key?(opts, :do) or not has_excentrique?(opts[:do]) do
       opts
     else
       deny_block(opts, :catch, caller)
@@ -132,10 +132,10 @@ defmodule Excentrique.Def do
   defp extract_do({:__block__, _, expressions}), do: List.pop_at(expressions, -1)
   defp extract_do(otherwise), do: {otherwise, []}
 
-  defp has_axent?({:<-, _, _}), do: true
-  defp has_axent?({:\\, _, [left, _]}), do: has_axent?(left)
-  defp has_axent?({:__block__, _, nodes}), do: Enum.any?(nodes, &has_axent?/1)
-  defp has_axent?(_), do: false
+  defp has_excentrique?({:<-, _, _}), do: true
+  defp has_excentrique?({:\\, _, [left, _]}), do: has_excentrique?(left)
+  defp has_excentrique?({:__block__, _, nodes}), do: Enum.any?(nodes, &has_excentrique?/1)
+  defp has_excentrique?(_), do: false
 
   defp deny_block(opts, block_key, caller) do
     if Keyword.has_key?(opts, block_key) do

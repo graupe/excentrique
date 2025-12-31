@@ -2,8 +2,8 @@ defmodule Excentrique do
   @moduledoc ~S"""
   > #### WARNING {: .warning}
   >
-  > This is work in progress and likely not maintained. It's public on github,
-  > so I can test it in real projects.
+  > This has been used in my private endeavours. More testing and community
+  > feed-back would make this production ready.
 
   Excentrique contains some syntactic/grammatical extensions for Elixir. Opposed to
   some other packages that provide similar functionality, this package actually
@@ -15,7 +15,7 @@ defmodule Excentrique do
   ```elixir
   def deps do
     [
-      {:excentrique, github: "graupe/excentrique"}
+      {:excentrique, github: "graupe/excentrique", runtime: false}
     ]
   end
   ```
@@ -28,25 +28,15 @@ defmodule Excentrique do
   ```
   """
 
-  defmacro __using__(opts) do
-    body = Keyword.get(opts, :do, :ok)
-
+  defmacro __using__(_opts) do
     if __CALLER__.module do
       quote do
         use Excentrique.Defstruct
         use Excentrique.Def
-
-        use Excentrique.Map do
-          unquote(body)
-        end
       end
     else
       quote do
         use Excentrique.Defmodule
-
-        use Excentrique.Map do
-          unquote(body)
-        end
       end
     end
   end
