@@ -117,42 +117,4 @@ end
 
 </details>
 
-<details>
-<summary>obsolete: Short map.</summary>
-
-Apparently [es6_maps](https://github.com/kzemek/es6_maps) does a better job.
-
-~These adaptations require that the AST (Abstract-Syntax-Tree) is rewritten,
-before they are further evaluated by the Elixir compiler. The reason is, that
-they change the grammar of `Kernel.SpecialForm` functions or macros.~
-
-~This requires either wrapping the code in question with `use Excentrique do
-:some_code end` or enabling `Excentrique` in the outer scope, of the current block,
-so that native language macros can be wrapped by `Excentrique` to do the rewrite on
-the fly. (wrapped macros: `defmodule/2`, `defprotocol/2`, etc.)~
-
-~Similar to the other short map packages, but rewriting the
-standard syntax. The variable pinning doesn't work anymore, in Elixir 1.8 and
-above.~
-
-```elixir
-use Excentrique do
-  aaa = 1
-  %{aaa: 1} = %{aaa}
-  %{aaa} = %{aaa: 2}
-  2 = aaa
-  # variable pinning broken
-  # %{^aaa} = %{aaa: ^aaa} = %{aaa: 1} = %{aaa}
-end
-```
-
-Or for implicit use within a module:
-
-```elixir
-use Excentrique
-defmodule SomeModule do
-  # use short maps here
-end
-```
-
-</details>
+The regular syntax of writing `defstruct [:some, :field]` remains in tact.

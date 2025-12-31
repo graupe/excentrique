@@ -12,9 +12,8 @@ defmodule Excentrique.Defmodule do
   defmacro defmodule(module_alias, do: body) do
     quote do
       Kernel.defmodule unquote(module_alias) do
-        use Excentrique do
-          unquote(body)
-        end
+        use Excentrique
+        unquote(body)
       end
     end
   end
