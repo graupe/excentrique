@@ -12,8 +12,6 @@ other packages that provide some of these features, this package actually
 overrides core syntactic elements to give cleaner feel and syntactic editor
 support without special treatments.
 
-`Excentrique` is a personal experiment.
-
 ## Installation
 
 `Excentrique` is [available on GitHub](https://github.com/graupe/excentrique) and can be installed
@@ -30,16 +28,20 @@ end
 
 ## Features
 
-### Function definition (`def`)
+All features can be activated by including `use Excentrique` in a module's
+body. Sub-features can be activated in isolation by including `use
+Excentrique.Def` or `use Excentrique.Defstruct`.
 
-Allow the use of `with`-style syntax on the top-level block of a function
+### Function definition (`def`) with implicit `with`
+
+Enables the use of `with`-style syntax on the top-level block of a function
 definition. By default the `def`-level `else`-block is used in conjunction with
 the implicit `try` that wraps the function body. It get's executed when no
 errors are being raised.
 
-If no implicit `try` is being wrapped, we instead wrap the function body with a
-`with` statement. This allows the use of `<-` assignments on the top-level of
-the function body.
+If we use the `<-/2` match assignment on the top-level of a do-block of a
+"eccentrical" `def` the statements get automatically wrapped into a `with`
+clause.
 
 For example:
 
@@ -48,6 +50,7 @@ defmodule SomeModule do
   use Excentrique
   def some_function(arg) do
     {:ok, value} <- external_function(arg)
+    IO.puts("Make more stuff here")
     {:ok, value} <- more_function(value) \\ :else_value_123
     value
   else
@@ -64,6 +67,7 @@ end
 defmodule SomeModule do
   def some_function(arg) do
     with {:ok, value} <- external_function(arg),
+         IO.puts("Make more stuff here"),
          {:else_value_123, {:ok, value}} <- {:else_value_123, more_function(value)} do
       value
     else
@@ -77,15 +81,21 @@ end
 
 </details>
 
+You cannot mix `rescue` nor `catch` when using the implicit `with` to maintain
+some clarity of what the `else` is about. An error will be raised when
+compiling should you try anyway. That said, regular behaviour is preserved and
+you can use `rescue` and `catch` and even `else` in the regular way if you
+don't employ `<-/2` assignments.
+
 ### Struct definition (`defstruct`) with types
 
-Define a struct, and it's type in one go. This is similar to [Algae
-`defdata`](https://hexdocs.pm/algae/Algae.html#defdata/1) but using
-`defstruct` and none of the algebraic data type stuff. In addition, this code
-is not tested thoroughly, yet. Also, the struct type is always `t() ::
-%SomeStruct{...}` without any type arguments. This remains a TODO.
+Define a `struct()` and it's type in one go. This is similar in syntax to what [Algae
+`defdata`](https://hexdocs.pm/algae/Algae.html#defdata/1) is doing but we redefine
+`defstruct`. Also none of the algebraic datatype stuff. As a caveat the
+struct's type is always `t() :: %SomeStruct{...}` without type arguments that
+could be passed on use. This might be implemented at some point.
 
-Notable is, that any field, that doesn't have a default value, will be part of
+It must be noted that any field, that doesn't have a default value, will be part of
 `@enforce_keys`. Defaults are denoted by a `\\` at the end of a field definition.
 
 For example:
