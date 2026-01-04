@@ -23,7 +23,7 @@ by adding `excentrique` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:excentrique, github: "graupe/excentrique", tag: "1.1.0", runtime: false}
+    {:excentrique, github: "graupe/excentrique", tag: "1.1.1", runtime: false}
   ]
 end
 ```
