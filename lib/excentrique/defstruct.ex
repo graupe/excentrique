@@ -14,7 +14,7 @@ defmodule Excentrique.Defstruct do
   end
 
   defp parse_field_def({:\\, _, [spec, default]}), do: normalize_spec(spec, default)
-  defp parse_field_def(spec), do: parse_field_def({:\\, [], [spec, :__axent_forced_key__]})
+  defp parse_field_def(spec), do: parse_field_def({:\\, [], [spec, :__excentrique_forced_key__]})
 
   defp normalize_spec({:"::", _, [{name, _, nil}, type]}, default), do: {name, type, default}
 
@@ -87,7 +87,7 @@ defmodule Excentrique.Defstruct do
 
     defstruct_args =
       for {name, _type, default} <- parsed do
-        if default === :__axent_forced_key__ do
+        if default === :__excentrique_forced_key__ do
           {name, nil}
         else
           {name, default}
@@ -95,7 +95,7 @@ defmodule Excentrique.Defstruct do
       end
 
     enforced_keys =
-      for {name, _type, :__axent_forced_key__} <- parsed do
+      for {name, _type, :__excentrique_forced_key__} <- parsed do
         name
       end
 

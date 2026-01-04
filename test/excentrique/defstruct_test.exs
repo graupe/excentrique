@@ -12,7 +12,7 @@ defmodule Excentrique.DefstructTest do
     :ok
   end
 
-  @axent_struct ~S"""
+  @excentrique_struct ~S"""
   defmodule SampleStruct do
     use Excentrique
 
@@ -25,7 +25,7 @@ defmodule Excentrique.DefstructTest do
   end
   """
 
-  @axent_struct_one_field ~S"""
+  @excentrique_struct_one_field ~S"""
   defmodule SampleStruct do
     use Excentrique
 
@@ -43,28 +43,28 @@ defmodule Excentrique.DefstructTest do
   end
   """
 
-  describe "axent defstruct implementation" do
+  describe "excentrique defstruct implementation" do
     test "generates valid struct with defaults" do
-      Code.compile_string(@axent_struct)
+      Code.compile_string(@excentrique_struct)
 
       assert inspect(struct!(SampleStruct, age: 25, email: nil)) =~
                ~S(%SampleStruct{username: "anon", age: 25, email: nil})
     end
 
     test "generates single field struct" do
-      Code.compile_string(@axent_struct_one_field)
+      Code.compile_string(@excentrique_struct_one_field)
       assert inspect(struct!(SampleStruct, one: :field)) =~ ~S(%SampleStruct{one: :field})
     end
 
     test "enforces required fields like Kernel.struct" do
       assert_raise ArgumentError, ~r/age/, fn ->
-        Code.compile_string(@axent_struct)
+        Code.compile_string(@excentrique_struct)
         struct!(SampleStruct, username: "test")
       end
     end
 
     test "enforces required fields like Kernel.struct that can be nil" do
-      Code.compile_string(@axent_struct)
+      Code.compile_string(@excentrique_struct)
 
       assert_raise ArgumentError, ~r/email/, fn ->
         struct!(SampleStruct, username: "test", age: 22)

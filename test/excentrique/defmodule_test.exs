@@ -8,7 +8,7 @@ defmodule Excentrique.DefmoduleTest do
     defmodule Excentrique.DefmoduleTest.Test do
       default_value = 10
       defstruct do
-        axent :: any() \\ %{default_value: default_value}
+        excentrique :: any() \\ %{default_value: default_value}
       end
     end
     """)

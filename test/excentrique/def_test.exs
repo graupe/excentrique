@@ -189,32 +189,32 @@ defmodule Excentrique.DefTest do
   """
 
   describe "Excentrique extended behaviour" do
-    test "axent def" do
+    test "excentrique def" do
       Code.compile_string(@test_ok)
       assert Test.test() == :some_value
     end
 
-    test "axent defp" do
+    test "excentrique defp" do
       Code.compile_string(@test_ok_private)
       assert Test.test() == :some_value
     end
 
-    test "axent def complex result" do
+    test "excentrique def complex result" do
       Code.compile_string(@test_ok_complex_result)
       assert Test.test() == :too_large
     end
 
-    test "axent def complex intermediate" do
+    test "excentrique def complex intermediate" do
       Code.compile_string(@test_ok_complex_intermediate)
       assert Test.test() == :too_large
     end
 
-    test "axent def no else" do
+    test "excentrique def no else" do
       Code.compile_string(@test_ok_no_else)
       assert Test.test() == :some_value
     end
 
-    test "axent def error on implicit nil return" do
+    test "excentrique def error on implicit nil return" do
       assert_raise SyntaxError,
                    ~r"Expected last expression in do-block to be result but got",
                    fn ->
@@ -222,7 +222,7 @@ defmodule Excentrique.DefTest do
                    end
     end
 
-    test "axent def error on `<-` with `rescue` or `catch`" do
+    test "excentrique def error on `<-` with `rescue` or `catch`" do
       assert_raise SyntaxError, ~r"Don't mix `rescue` blocks and Excentrique syntax", fn ->
         Code.compile_string(@test_ok_with_rescue_discurage)
       end
@@ -232,13 +232,13 @@ defmodule Excentrique.DefTest do
       end
     end
 
-    test "axent def with :error case" do
+    test "excentrique def with :error case" do
       Code.compile_string(@test_error)
       assert Test.test({:ok, :value}) == :value
       assert Test.test(:not_ok) == :error
     end
 
-    test "axent def with :error case and `\\\\` reference" do
+    test "excentrique def with :error case and `\\\\` reference" do
       Code.compile_string(@test_error_with_reference)
 
       assert Test.test({:ok, :first_value}, {:ok, :second_value}) ==
@@ -251,7 +251,7 @@ defmodule Excentrique.DefTest do
                {:error, "first match failed: first_reason"}
     end
 
-    test "axent def with guard :error case and `\\\\` reference" do
+    test "excentrique def with guard :error case and `\\\\` reference" do
       Code.compile_string(@test_guard_error_with_reference)
 
       assert Test.test("some binary", {:ok, :second_value}) ==
