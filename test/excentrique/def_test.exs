@@ -152,6 +152,20 @@ defmodule Excentrique.DefTest do
         end
       end
   """
+  @test_guard_error_with_reference ~S"""
+      defmodule Test do
+        use Excentrique.Def
+
+        def test(first, second) do
+          str when is_binary(str) <- first \\ :not_binary
+          {:ok, value2} <- second \\ :second_match
+          {str, value2}
+        else
+          {:not_binary, value} -> {:error, "guarded match failed, got: #{inspect(value)}"}
+          {:second_match, {:error, reason}} -> {:error, "second match failed: #{reason}"}
+        end
+      end
+  """
   @test_normal_def ~S"""
     defmodule Test do
       use Excentrique.Def
@@ -235,6 +249,19 @@ defmodule Excentrique.DefTest do
 
       assert Test.test({:error, :first_reason}, {:ok, :first_value}) ==
                {:error, "first match failed: first_reason"}
+    end
+
+    test "axent def with guard :error case and `\\\\` reference" do
+      Code.compile_string(@test_guard_error_with_reference)
+
+      assert Test.test("some binary", {:ok, :second_value}) ==
+               {"some binary", :second_value}
+
+      assert Test.test("some binary", {:error, :second_reason}) ==
+               {:error, "second match failed: second_reason"}
+
+      assert Test.test(:atom, {:ok, :second_value}) ==
+               {:error, "guarded match failed, got: #{inspect(:atom)}"}
     end
   end
 

@@ -124,10 +124,16 @@ defmodule Excentrique.Def do
   defp apply_special_forms([clause | clauses]),
     do: [apply_special_form(clause) | apply_special_forms(clauses)]
 
-  defp apply_special_form({:\\, _meta, [{:<-, meta, [left, right]}, reference]}),
-    do: {:<-, meta, [{reference, left}, {reference, right}]}
+  defp apply_special_form({:\\, _meta, [{:<-, meta, [match, expression]}, reference]}),
+    do:
+      {:<-, meta, [apply_special_form_promote_guards(reference, match), {reference, expression}]}
 
   defp apply_special_form(clause), do: clause
+
+  defp apply_special_form_promote_guards(reference, {:when, meta, [match | guards]}),
+    do: {:when, meta, [{reference, match} | guards]}
+
+  defp apply_special_form_promote_guards(reference, match), do: {reference, match}
 
   defp extract_do({:__block__, _, expressions}), do: List.pop_at(expressions, -1)
   defp extract_do(otherwise), do: {otherwise, []}
